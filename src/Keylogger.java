@@ -8,6 +8,7 @@ public class Keylogger {
     }
 
     private static String extractPassword(String distortedInput) {
+
         int insertionIndex = 0;
 
         StringBuilder output = new StringBuilder();
@@ -15,14 +16,12 @@ public class Keylogger {
         for (char c : distortedInput.toCharArray()) {
             switch (c) {
                 case '<': {
-                    insertionIndex--;
-                    insertionIndex = correctIndex(insertionIndex, output.length());
+                    insertionIndex = correctIndex(--insertionIndex, output.length());
                     break;
                 }
 
                 case '>': {
-                    insertionIndex++;
-                    insertionIndex = correctIndex(insertionIndex, output.length());
+                    insertionIndex = correctIndex(++insertionIndex, output.length());
                     break;
                 }
 
@@ -31,10 +30,12 @@ public class Keylogger {
                         if (insertionIndex < output.length())
                             output.deleteCharAt(--insertionIndex);
                         else output.deleteCharAt(output.length() - 1);
+
                         insertionIndex = correctIndex(insertionIndex, output.length());
                     }
                     break;
                 }
+
                 default: {
                     if (insertionIndex < output.length())
                         output.insert(insertionIndex, c);
