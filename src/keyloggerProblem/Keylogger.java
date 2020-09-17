@@ -6,7 +6,7 @@ public class Keylogger {
         System.out.println(extractPassword("Gs<<G>W>-P"));
         System.out.println(extractPassword("kjl19<<SEP<<<---15"));
         System.out.println(extractPassword("UniS>>><<<N>>>sRI<<-<--"));
-        System.out.println(extractPassword("mahmoud<<<<<<<<<<<asyraf"));
+        System.out.println(extractPassword("mahmoud<<<<<<<<<<<asyraf>>>>>>>-------"));
     }
 
     private static String extractPassword(String distortedInput) {
@@ -16,14 +16,17 @@ public class Keylogger {
         StringBuilder output = new StringBuilder();
 
         for (char c : distortedInput.toCharArray()) {
+
+            insertionIndex = correctIndex(insertionIndex, output.length());
+
             switch (c) {
                 case '<': {
-                    insertionIndex = correctIndex(--insertionIndex, output.length());
+                    --insertionIndex;
                     break;
                 }
 
                 case '>': {
-                    insertionIndex = correctIndex(++insertionIndex, output.length());
+                    ++insertionIndex;
                     break;
                 }
 
@@ -32,8 +35,6 @@ public class Keylogger {
                         if (insertionIndex < output.length())
                             output.deleteCharAt(--insertionIndex);
                         else output.deleteCharAt(output.length() - 1);
-
-                        insertionIndex = correctIndex(insertionIndex, output.length());
                     }
                     break;
                 }
@@ -43,7 +44,7 @@ public class Keylogger {
                         output.insert(insertionIndex, c);
                     else output.append(c);
 
-                    insertionIndex = correctIndex(++insertionIndex, output.length());
+                    ++insertionIndex;
                 }
             }
         }
