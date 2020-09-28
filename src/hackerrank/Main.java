@@ -1,9 +1,6 @@
 package hackerrank;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -132,7 +129,7 @@ public class Main {
         return x == y ? "Mouse C" :
                 (x > y) ? "Cat B" : "Cat A";
     }
-    
+
 
     public static int pickingNumbers(List<Integer> a) {
         int maxSize = 0;
@@ -160,5 +157,71 @@ public class Main {
         }
 
         return maxSize;
+    }
+
+    // Complete the birthday function below.
+    static int birthday(List<Integer> s, int d, int m) {
+        int count = 0;
+
+        for (int i = 0, sSize = s.size(); i < sSize; i++) {
+            count += findSegment(s, i, d, m);
+        }
+
+        return count;
+    }
+
+    private static int findSegment(List<Integer> s, int i, int d, int m) {
+        if (i < s.size() && d != 0 && m != 0)
+            return findSegment(s, i + 1, d - s.get(i), m - 1);
+        else if (d == 0 && m == 0) return 1;
+        return 0;
+    }
+
+    static String angryProfessor(int k, int[] a) {
+        int studentsPresent = (int) Arrays.stream(a)
+                .filter(value -> value <= 0)
+                .count();
+        return (studentsPresent >= k) ? "NO" : "YES";
+    }
+
+    static int beautifulDays(int i, int j, int k) {
+        return (int) IntStream.rangeClosed(i, j)
+                .filter(value -> {
+                    String integerString = String.valueOf(value);
+                    String reverseString = new StringBuilder(integerString)
+                            .reverse().toString();
+
+                    int reverse = Integer.parseInt(reverseString);
+                    return Math.abs(value - reverse) % k == 0;
+                })
+                .count();
+    }
+
+    static int[] cutTheSticks(int[] arr) {
+        ArrayList<Integer> remainingSticks = new ArrayList<>();
+
+        remainingSticks.add(arr.length);
+
+        while (Arrays.stream(arr).filter(value -> value > 0).count() > 0) {
+            int smallest = Arrays.stream(arr)
+                    .filter(value -> value > 0)
+                    .sorted()
+                    .toArray()[0];
+
+            arr = Arrays.stream(arr)
+                    .filter(value -> value > 0)
+                    .map(operand -> operand - smallest)
+                    .toArray();
+
+            int count = (int) Arrays.stream(arr)
+                    .filter(value -> value > 0)
+                    .count();
+
+            if (count != 0) {
+                remainingSticks.add(count);
+            }
+        }
+
+        return remainingSticks.stream().mapToInt(Integer::intValue).toArray();
     }
 }
