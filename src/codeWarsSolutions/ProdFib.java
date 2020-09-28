@@ -39,3 +39,4 @@ public class ProdFib { // must be public for codewars
         return o;
     }
 }
+
