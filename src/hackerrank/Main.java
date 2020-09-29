@@ -1,6 +1,7 @@
 package hackerrank;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -223,5 +224,19 @@ public class Main {
         }
 
         return remainingSticks.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    // Complete the designerPdfViewer function below.
+    static int designerPdfViewer(int[] h, String word) {
+        return word.chars()
+                .map(operand -> h[operand - 'a'])
+                .max().getAsInt() * word.length();
+    }
+
+    // Complete the utopianTree function below.
+    static int utopianTree(int n) {
+        return IntStream.rangeClosed(0, n)
+                .reduce(0, (left, right) ->
+                        (right % 2 == 0) ? left + 1 : left * 2);
     }
 }
