@@ -255,6 +255,9 @@ public class Main {
                 .count() == 26);
     }
 
+    /*
+     * codewars
+     * */
     public static boolean isValid(char[] walk) {
         String s = new String(walk);
 
@@ -279,6 +282,9 @@ public class Main {
         return x == 0 && y == 0 && walk.length == 10;
     }
 
+    /*
+     * codewars
+     * */
     public static String longestConsec(String[] strarr, int k) {
         if (k <= 0) return "";
         else if (k == 1) return Arrays.stream(strarr)
@@ -291,6 +297,9 @@ public class Main {
                 .orElse("");
     }
 
+    /*
+     * codewars
+     * */
     public static String reverseLetter(final String str) {
         return new StringBuilder(str.chars()
                 .filter(Character::isAlphabetic)
