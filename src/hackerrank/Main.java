@@ -1,7 +1,6 @@
 package hackerrank;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -238,5 +237,64 @@ public class Main {
         return IntStream.rangeClosed(0, n)
                 .reduce(0, (left, right) ->
                         (right % 2 == 0) ? left + 1 : left * 2);
+    }
+
+    static int libraryFine(int d1, int m1, int y1, int d2, int m2, int y2) {
+        if (y1 > y2) return 10_000;
+        else if (m1 > m2 && y1 == y2) return (m1 - m2) * 500;
+        else if (d1 > d2 && m1 == m2 && y1 == y2) return (d1 - d2) * 15;
+        return 0;
+    }
+
+    public boolean checkIsStringPentagram(String sentence) {
+        return (sentence
+                .toLowerCase()
+                .chars()
+                .distinct()
+                .filter(Character::isAlphabetic)
+                .count() == 26);
+    }
+
+    public static boolean isValid(char[] walk) {
+        String s = new String(walk);
+
+        int x = s.chars()
+                .filter(value -> value == 'e' || value == 'w')
+                .mapToObj(value -> {
+                    if (value == 'w') return -1;
+                    else return 1;
+                })
+                .mapToInt(Integer::valueOf)
+                .sum();
+
+        int y = s.chars()
+                .filter(value -> value == 'n' || value == 's')
+                .mapToObj(value -> {
+                    if (value == 'n') return 1;
+                    else return -1;
+                })
+                .mapToInt(Integer::valueOf)
+                .sum();
+
+        return x == 0 && y == 0 && walk.length == 10;
+    }
+
+    public static String longestConsec(String[] strarr, int k) {
+        if (k <= 0) return "";
+        else if (k == 1) return Arrays.stream(strarr)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
+
+        return IntStream.rangeClosed(0, strarr.length - k)
+                .mapToObj(i -> Arrays.stream(strarr, i, i + k).collect(Collectors.joining()))
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
+    }
+
+    public static String reverseLetter(final String str) {
+        return new StringBuilder(str.chars()
+                .filter(Character::isAlphabetic)
+                .mapToObj(value -> Character.valueOf((char) value).toString())
+                .reduce("", String::concat)).reverse().toString();
     }
 }
