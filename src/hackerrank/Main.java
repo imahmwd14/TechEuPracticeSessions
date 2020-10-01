@@ -306,4 +306,44 @@ public class Main {
                 .mapToObj(value -> Character.valueOf((char) value).toString())
                 .reduce("", String::concat)).reverse().toString();
     }
+
+    public static int getCount(String str) {
+        final String vowels = "aeiou";
+        return (int) str.chars()
+                .filter(value -> vowels.indexOf(value) > -1)
+                .count();
+    }
+
+    public static int[] twoSum(int[] numbers, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        IntStream.range(0, numbers.length)
+                .forEach(value -> map.put(numbers[value], value));
+
+        int[] indices = {0, 0};
+
+        for (Integer key0 : map.keySet()) {
+            int key1 = target - key0;
+            if (map.containsKey(key1)) {
+                indices[0] = map.get(key0);
+                indices[1] = map.get(key1);
+            }
+        }
+
+        return indices;
+    }
+
+    static String encode(String word) {
+        word = word.toLowerCase();
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (var s : word.split("")) {
+            map.put(s, map.getOrDefault(s, 0) + 1);
+        }
+
+        return word.chars()
+                .mapToObj(value -> map.get(String.valueOf((char) value)) == 1 ? "(" : ")")
+                .collect(Collectors.joining());
+    }
 }
