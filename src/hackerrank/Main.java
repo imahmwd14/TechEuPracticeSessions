@@ -7,12 +7,8 @@ import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
-        IntStream
-                .range(1, 5)
-                .filter(value -> value % 2 == 1)
-                .forEach(System.out::println);
-    }
 
+    }
 
     // Complete the plusMinus function below.
     static void plusMinus(int[] arr) {
@@ -27,7 +23,6 @@ public class Main {
         }
     }
 
-
     public static int getTotalX(List<Integer> a, List<Integer> b) {
         IntPredicate intPredicate = value -> {
             return a.stream().filter(integer -> value % integer == 0).count() == a.size()
@@ -39,7 +34,6 @@ public class Main {
                 .filter(intPredicate)
                 .count();
     }
-
 
     // Complete the squares function below.
     static int squares(int a, int b) {
@@ -56,7 +50,6 @@ public class Main {
                 .count();
     }
 
-
     public static int diagonalDifference(List<List<Integer>> arr) {
         IntStream indices = IntStream.range(0, arr.size());
 
@@ -70,7 +63,6 @@ public class Main {
 
         return Math.abs(principalDiagonal - secondaryDiagonal);
     }
-
 
     public static int countingValleys(int steps, String path) {
         final int[] numOfValleys = new int[1];
@@ -86,7 +78,6 @@ public class Main {
 
         return numOfValleys[0];
     }
-
 
     static int getMoneySpent(int[] keyboards, int[] drives, int b) {
 
@@ -122,14 +113,12 @@ public class Main {
         return max;
     }
 
-
     static String catAndMouseT(int x, int y, int z) {
         x = Math.abs(x - z); // how far is x from the mouse
         y = Math.abs(y - z); // how far is y from the mouse
         return x == y ? "Mouse C" :
                 (x > y) ? "Cat B" : "Cat A";
     }
-
 
     public static int pickingNumbers(List<Integer> a) {
         int maxSize = 0;
@@ -345,5 +334,56 @@ public class Main {
         return word.chars()
                 .mapToObj(value -> map.get(String.valueOf((char) value)) == 1 ? "(" : ")")
                 .collect(Collectors.joining());
+    }
+
+    static long repeatedString(String s, long n) {
+        // count how many a are there in the string
+        long count = s.chars().filter(value -> value == (char) 'a').count();
+
+        long l = n / s.length(); // how many times the string will repeat in the new string
+
+        int i = (int) (n % s.length());
+
+
+        long ASCount = count * l;
+        if (i > 0)
+            return ASCount + s.substring(0, i).chars().filter(value -> value == 'a').count();
+        return ASCount;
+    }
+
+    static int equalizeArray(int[] arr) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i : arr) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+
+        return arr.length - Collections.max(map.values());
+    }
+
+    static int[] acmTeam(String[] topic) {
+        int[] maxIndices = {0, 0};
+
+        for (int i = 0, topicLength = topic.length; i < topicLength; i++) {
+            String s = topic[i];
+            for (int j = 0, length = topic.length; j < length; j++) {
+                String s1 = topic[j];
+
+                maxIndices[0] = Math.max(Integer.parseInt(s) | Integer.parseInt(s1), maxIndices[0]);
+            }
+        }
+
+        for (int i = 0, topicLength = topic.length; i < topicLength; i++) {
+            String s = topic[i];
+            for (int j = 0, length = topic.length; j < length; j++) {
+                String s1 = topic[j];
+
+                if ((Integer.parseInt(s) | Integer.parseInt(s1)) == maxIndices[0]) {
+                    maxIndices[1]++;
+                }
+            }
+        }
+
+        return new int[]{(int) Integer.toBinaryString(maxIndices[0]).chars().filter(value -> value == '1').count(), maxIndices[1]};
     }
 }
