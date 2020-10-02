@@ -361,6 +361,27 @@ public class Main {
         return arr.length - Collections.max(map.values());
     }
 
+    static int equalizeArrayUsingArrays(int[] arr) {
+        if (arr.length == 1) return 0;
+
+        int min = Integer.MAX_VALUE;
+        for (int i : arr) min = Math.min(min, i);
+
+        int max = Integer.MIN_VALUE;
+        for (int i : arr) max = Math.max(max, i);
+
+        int[] freq = new int[max - min + 1];
+
+        for (int i = 0; i < arr.length; i++) {
+            freq[(arr[i] - min)]++;
+        }
+
+        int modeCount = Integer.MIN_VALUE;
+        for (int i : freq) modeCount = Math.max(modeCount, i);
+
+        return arr.length - modeCount;
+    }
+
     static int[] acmTeam(String[] topic) {
         int[] maxIndices = {0, 0};
 
