@@ -350,13 +350,12 @@ public class Main {
     }
 
     static int equalizeArray(int[] arr) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-
-        for (int i : arr) {
-            map.put(i, map.getOrDefault(i, 0) + 1);
-        }
-
-        return arr.length - Collections.max(map.values());
+        return arr.length - Arrays.stream(arr)
+                .distinct()
+                .map(operand ->
+                        (int) Arrays.stream(arr).filter(value -> value == operand).count())
+                .max()
+                .orElse(0);
     }
 
     static int equalizeArrayUsingArrays(int[] arr) {
