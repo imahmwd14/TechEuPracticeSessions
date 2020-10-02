@@ -24,10 +24,8 @@ public class Main {
     }
 
     public static int getTotalX(List<Integer> a, List<Integer> b) {
-        IntPredicate intPredicate = value -> {
-            return a.stream().filter(integer -> value % integer == 0).count() == a.size()
-                    && b.stream().filter(integer -> integer % value == 0).count() == b.size();
-        };
+        IntPredicate intPredicate = value -> a.stream().filter(integer -> value % integer == 0).count() == a.size()
+                && b.stream().filter(integer -> integer % value == 0).count() == b.size();
 
         return (int) IntStream
                 .range(/*the last element in a->*/a.get(a.size() - 1), /*the first element in b->*/b.get(0) + 1)
@@ -338,7 +336,7 @@ public class Main {
 
     static long repeatedString(String s, long n) {
         // count how many a are there in the string
-        long count = s.chars().filter(value -> value == (char) 'a').count();
+        long count = s.chars().filter(value -> value == 'a').count();
 
         long l = n / s.length(); // how many times the string will repeat in the new string
 
@@ -364,17 +362,31 @@ public class Main {
     static int equalizeArrayUsingArrays(int[] arr) {
         if (arr.length == 1) return 0;
 
+        // used for storing the minimum element in the array "arr"
         int min = Integer.MAX_VALUE;
-        for (int i : arr) min = Math.min(min, i);
-
+        // used for storing the maximum element in the array "arr"
         int max = Integer.MIN_VALUE;
-        for (int i : arr) max = Math.max(max, i);
 
-        int[] freq = new int[max - min + 1];
+        // used for storing the frequencies of the elements in "arr"
+        int[] freq;
 
-        for (int i = 0; i < arr.length; i++) {
-            freq[(arr[i] - min)]++;
-        }
+        // used for string the count of the most frequent element the array "arr"
+        int modeCount = Integer.MIN_VALUE;
+
+        // finding the minimum number in the array.
+        for (int i : arr)
+            min = Math.min(min, i);
+
+        // finding the maximum number in the array.
+        for (int i : arr)
+            max = Math.max(max, i);
+
+        // initialize the frequencies array.
+        freq = new int[max - min + 1];
+
+        // recording the frequencies of the elements.
+        for (int j : arr) freq[(j - min)]++;
+
 
         /*
          *
@@ -385,9 +397,13 @@ public class Main {
          *
          * */
 
-        int modeCount = Integer.MIN_VALUE;
+        // finding the frequency of the most frequent element in the array "arr".
         for (int i : freq) modeCount = Math.max(modeCount, i);
 
+        /*
+         * return how many elements need to be deleted
+         * to make all of the elements in the array "arr" equal.
+         * */
         return arr.length - modeCount;
     }
 
