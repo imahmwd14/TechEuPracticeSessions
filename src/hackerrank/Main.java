@@ -373,13 +373,12 @@ public class Main {
         // used for string the count of the most frequent element the array "arr"
         int modeCount = Integer.MIN_VALUE;
 
-        // finding the minimum number in the array.
-        for (int i : arr)
+        for (int i : arr) {
+            // finding the minimum number in the array.
             min = Math.min(min, i);
-
-        // finding the maximum number in the array.
-        for (int i : arr)
+            // finding the maximum number in the array.
             max = Math.max(max, i);
+        }
 
         // initialize the frequencies array.
         freq = new int[max - min + 1];
@@ -410,25 +409,16 @@ public class Main {
     static int[] acmTeam(String[] topic) {
         int[] maxIndices = {0, 0};
 
-        for (int i = 0, topicLength = topic.length; i < topicLength; i++) {
-            String s = topic[i];
-            for (int j = 0, length = topic.length; j < length; j++) {
-                String s1 = topic[j];
+        Arrays.stream(topic).forEach(s -> {
+            Arrays.stream(topic).forEach(s1 -> maxIndices[0] = Math.max(Integer.parseInt(s) | Integer.parseInt(s1), maxIndices[0]));
+        });
 
-                maxIndices[0] = Math.max(Integer.parseInt(s) | Integer.parseInt(s1), maxIndices[0]);
-            }
-        }
-
-        for (int i = 0, topicLength = topic.length; i < topicLength; i++) {
-            String s = topic[i];
-            for (int j = 0, length = topic.length; j < length; j++) {
-                String s1 = topic[j];
-
-                if ((Integer.parseInt(s) | Integer.parseInt(s1)) == maxIndices[0]) {
-                    maxIndices[1]++;
-                }
-            }
-        }
+        Arrays.stream(topic)
+                .forEach(s ->
+                        Arrays.stream(topic)
+                                .filter(s1 -> (Integer.parseInt(s) | Integer.parseInt(s1)) == maxIndices[0])
+                                .forEach(s1 -> maxIndices[1]++)
+                );
 
         return new int[]{(int) Integer.toBinaryString(maxIndices[0]).chars().filter(value -> value == '1').count(), maxIndices[1]};
     }
