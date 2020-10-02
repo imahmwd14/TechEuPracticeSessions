@@ -376,6 +376,15 @@ public class Main {
             freq[(arr[i] - min)]++;
         }
 
+        /*
+         *
+         * Now, every element in the array called "freq"
+         * contains the frequency of each element in the array called "arr",
+         * every index of the array "freq" is mapped to an element in "arr"
+         * with the equation (index = element - min).
+         *
+         * */
+
         int modeCount = Integer.MIN_VALUE;
         for (int i : freq) modeCount = Math.max(modeCount, i);
 
