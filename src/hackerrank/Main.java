@@ -1,5 +1,6 @@
 package hackerrank;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
@@ -420,5 +421,45 @@ public class Main {
                 );
 
         return new int[]{(int) Integer.toBinaryString(maxIndices[0]).chars().filter(value -> value == '1').count(), maxIndices[1]};
+    }
+
+    static int minimumDistances(int[] a) {
+        ArrayList<Integer> list = Arrays.stream(a).boxed().collect(Collectors.toCollection(ArrayList::new));
+
+        return Arrays.stream(a)
+                .map(operand -> {
+                    int index = list.indexOf(operand);
+                    return list.subList(index + 1, list.size()).indexOf(operand) + 1;
+                })
+                .filter(value -> value > 0)
+                .min()
+                .orElse(-1);
+    }
+
+    static int simpleArraySum(int[] ar) {
+        return Arrays.stream(ar).sum();
+    }
+
+    public int numIdenticalPairs(int[] nums) {
+        HashMap<Integer, Integer> freq = new HashMap<>();
+
+        Arrays.stream(nums)
+                .forEach(num -> freq.put(num, freq.getOrDefault(num, 0) + 1));
+
+        return freq.values()
+                .stream()
+                .filter(integer -> integer > 1)
+                .mapToInt(Integer::intValue)
+                .map(operand -> binom(operand, 2).intValue())
+                .sum();
+    }
+
+    static BigInteger binom(int N, int K) {
+        BigInteger ret = BigInteger.ONE;
+        for (int k = 0; k < K; k++) {
+            ret = ret.multiply(BigInteger.valueOf(N - k))
+                    .divide(BigInteger.valueOf(k + 1));
+        }
+        return ret;
     }
 }
